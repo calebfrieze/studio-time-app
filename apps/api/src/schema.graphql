@@ -1,0 +1,87 @@
+scalar DateTime
+
+enum UserType {
+  engineer
+  customer
+}
+
+# User is either an employee or a customer
+# Customers can book sessions
+# Employees can modify sessions
+type User {
+  id: String
+  displayName: String
+  email: String
+  userType: UserType
+  studios: [Studio]
+}
+
+input UserInput {
+  displayName: String
+  email: String
+  userType: UserType
+}
+
+type Session {
+  id: String
+  startTime: String
+  endTime: String
+  date: DateTime
+  engineer: User
+  studio: Studio
+  customer: User
+}
+
+input StudioInput {
+  displayName: String
+  city: String
+  state: String
+}
+
+type Studio {
+  id: String
+  displayName: String
+  city: String
+  state: String
+}
+
+input SessionInput {
+  startTime: String!
+  endTime: String!
+  date: String!
+  engineerId: String!
+  studioId: String!
+  customerId: String!
+}
+
+type Query {
+  users: [User]
+  sessions: [Session]
+  studios: [Studio]
+  getCustomersByEmail(email: String!): [User]
+  getEngineersByAvailability(
+    start: String!
+    end: String!
+    date: String!
+    studioId: String!
+  ): [User]
+  getSessionsByCustomerId(customerId: String!): [Session]
+  getSessionsByEngineerId(engineerId: String!): [Session]
+  getSessionById(id: String!): Session
+  getCustomerById(id: String!): User
+}
+
+type Mutation {
+  createSession(session: SessionInput!): Session
+  updateSession(session: SessionInput!): Session
+  deleteSession(id: String!): Session
+
+  createStudio(studio: StudioInput!): Studio
+  updateStudio(studio: StudioInput!): Studio
+  deleteStudio(id: String!): Studio
+
+  createUser(user: UserInput!): User
+  createCustomer(customer: UserInput!): User
+  updateUser(user: UserInput!): User
+  deleteUser(id: String!): User
+}

@@ -1,15 +1,20 @@
 {
-  "name": "docs",
+  "name": "web",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3001",
+    "dev": "next dev --port 3000",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
+    "@apollo/client": "^3.12.0",
+    "@apollo/experimental-nextjs-app-support": "^0.11.6",
     "@repo/ui": "workspace:*",
+    "date-fns": "^4.1.0",
+    "graphql": "^16.9.0",
+    "lucide-react": "catalog:",
     "next": "14.2.8",
     "react": "catalog:react18",
     "react-dom": "catalog:react18"

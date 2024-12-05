@@ -1,0 +1,33 @@
+FROM node:20.17.0 AS builder
+
+WORKDIR /usr/src/app
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@9.12.0 --activate
+
+# Copy root files needed for install
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY turbo.json ./
+
+# Copy all source code
+COPY apps ./apps
+COPY packages ./packages
+
+# Install all dependencies and ensure workspace packages are linked
+RUN pnpm install --frozen-lockfile
+RUN pnpm -r install --frozen-lockfile  # Recursive install for all workspaces
+
+# Production stage
+FROM node:20.17.0-slim
+
+WORKDIR /usr/src/app
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@9.12.0 --activate
+
+# Copy ALL files from builder including node_modules
+COPY --from=builder /usr/src/app .
+
+EXPOSE 3000
+
+CMD ["pnpm", "dev", "--filter", "web"]

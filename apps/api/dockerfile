@@ -1,0 +1,43 @@
+# Build stage
+FROM node:20.17.0 AS builder
+
+WORKDIR /usr/src/app
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@9.12.0 --activate
+
+# Copy root files needed for install
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY turbo.json ./
+
+# Copy all source code
+COPY apps ./apps
+COPY packages ./packages
+
+# Install all dependencies
+RUN pnpm install --frozen-lockfile
+
+# Production stage
+FROM node:20.17.0-slim
+
+WORKDIR /usr/src/app
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@9.12.0 --activate
+
+# Copy necessary files from builder
+COPY --from=builder /usr/src/app/package.json ./
+COPY --from=builder /usr/src/app/pnpm-lock.yaml ./
+COPY --from=builder /usr/src/app/pnpm-workspace.yaml ./
+COPY --from=builder /usr/src/app/turbo.json ./
+
+# Copy the source code
+COPY --from=builder /usr/src/app/apps/api ./apps/api
+COPY --from=builder /usr/src/app/packages ./packages
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+EXPOSE 4000
+
+CMD ["pnpm", "dev", "--filter", "api"]
