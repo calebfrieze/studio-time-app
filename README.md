@@ -1,3 +1,19 @@
+# Studio Time App
+
+This is a full stack app built with Next.js, Apollo Client, GraphQL, and TypeORM.
+
+Authentication is handled by giving a name and email address.
+
+Everything runs on docker.
+
+`docker compose up` will start the database, api, and web server.
+
+If you try to book a session during 5am-12pm there will be no engineers available for east west studios.
+
+# Here is the readme for the template that was used to create this project
+
+
+
 # Turborepo starter with shadcn/ui
 
 ![Static Badge](https://img.shields.io/badge/shadcn%2Fui-2.1.2-blue?link=https%3A%2F%2Fgithub.com%2Fshadcn%2Fui)

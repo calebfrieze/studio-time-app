@@ -14,6 +14,7 @@ export type SessionInput = {
   date: string;
   engineerId: string;
   studioId: string;
+  customerId: string;
 };
 
 @Entity()
@@ -21,10 +22,10 @@ export class Session {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
+  @Column({ type: "time" })
   startTime: string;
 
-  @Column()
+  @Column({ type: "time" })
   endTime: string;
 
   @Column()

@@ -1,11 +1,11 @@
 import { gql } from "@apollo/client";
 import { query } from "../clients/graphql";
 
-export async function getSessionsByCustomerId(customerId: string) {
+export async function getSessionsByUserId(userId: string) {
   const { data } = await query({
     query: gql`
-      query getSessionsByCustomerId($customerId: String!) {
-        getSessionsByCustomerId(customerId: $customerId) {
+      query getSessionsByUserId($userId: String!) {
+        getSessionsByUserId(userId: $userId) {
           id
           startTime
           endTime
@@ -22,11 +22,11 @@ export async function getSessionsByCustomerId(customerId: string) {
       }
     `,
     variables: {
-      customerId,
+      userId,
     },
   });
 
-  return data.getSessionsByCustomerId;
+  return data.getSessionsByUserId;
 }
 
 export async function getSessionsByEngineerId(engineerId: string) {

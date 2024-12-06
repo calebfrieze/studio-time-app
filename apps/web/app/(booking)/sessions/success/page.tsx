@@ -10,10 +10,13 @@ export default async function Success({
   searchParams: { sessionId: string };
 }) {
   const session = await getSessionById(searchParams.sessionId);
+  const date = format(session.date, "MMM d, yyyy");
 
-  const date = format(new Date(parseInt(session.date, 10)), "MMM d, yyyy");
-  const startTime = times.find((t) => t.value === session.startTime);
-  const endTime = times.find((t) => t.value === session.endTime);
+  // TODO: Handle Time better
+  const startTime = times.find(
+    (t) => t.value === session.startTime.slice(0, 5),
+  );
+  const endTime = times.find((t) => t.value === session.endTime.slice(0, 5));
 
   return (
     <div className="flex flex-col max-w-sm lg:max-w-xl mx-auto gap-4">

@@ -58,6 +58,8 @@ type Query {
   users: [User]
   sessions: [Session]
   studios: [Studio]
+  getUsersByEmail(email: String!): [User]
+  getUserById(id: String!): User
   getCustomersByEmail(email: String!): [User]
   getEngineersByAvailability(
     start: String!
@@ -65,8 +67,7 @@ type Query {
     date: String!
     studioId: String!
   ): [User]
-  getSessionsByCustomerId(customerId: String!): [Session]
-  getSessionsByEngineerId(engineerId: String!): [Session]
+  getSessionsByUserId(userId: String!): [Session]
   getSessionById(id: String!): Session
   getCustomerById(id: String!): User
 }
@@ -74,7 +75,7 @@ type Query {
 type Mutation {
   createSession(session: SessionInput!): Session
   updateSession(session: SessionInput!): Session
-  deleteSession(id: String!): Session
+  deleteSessionById(id: String!): Session
 
   createStudio(studio: StudioInput!): Studio
   updateStudio(studio: StudioInput!): Studio

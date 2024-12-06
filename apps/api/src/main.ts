@@ -5,6 +5,7 @@ import { mergeTypeDefs } from "@graphql-tools/merge";
 import path from "path";
 import { resolvers } from "./resolvers";
 import { AppDataSource } from "./data-source";
+import { seed } from "./seed";
 
 // TODO: Break up schema into multiple files for readability
 const typeDefsArray = loadFilesSync(path.join(__dirname, "./schema.graphql"));
@@ -21,6 +22,10 @@ const server = new ApolloServer({
     await AppDataSource.initialize();
 
     console.log("Datasource initialized.");
+
+    await seed(AppDataSource);
+
+    console.log("Seeded database.");
   } catch (e) {
     console.log("Failed to initialize datasource:", e);
     process.exit(1);

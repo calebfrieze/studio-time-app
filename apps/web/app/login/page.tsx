@@ -4,6 +4,7 @@ import { createCustomer } from "../../actions/createCustomer";
 import { redirect } from "next/navigation";
 import { getCustomersByEmail } from "../../actions/getCustomers";
 import { cookies } from "next/headers";
+import { getUsersByEmail } from "../../actions/getUsers";
 
 export default function Login({
   searchParams,
@@ -21,12 +22,13 @@ export default function Login({
           "use server";
           const name = formData.get("name") as string;
           const email = formData.get("email") as string;
-          const existingCustomer = (await getCustomersByEmail(email)).find(
-            (customer) => customer.id,
+          const existingUser = (await getUsersByEmail(email)).find(
+            (user) => user.id,
           );
-          if (existingCustomer) {
+
+          if (existingUser) {
             // Prevent duplicate customers
-            cookies().set("customerId", existingCustomer.id, {
+            cookies().set("userId", existingUser.id, {
               path: "/",
               httpOnly: true,
               secure: true,
@@ -39,7 +41,7 @@ export default function Login({
           }
           const customer = await createCustomer({ name, email });
           // store customer id in cookies
-          cookies().set("customerId", customer.id, {
+          cookies().set("userId", customer.id, {
             path: "/",
             httpOnly: true,
             secure: true,

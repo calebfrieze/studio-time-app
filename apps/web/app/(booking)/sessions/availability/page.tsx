@@ -37,15 +37,15 @@ export default async function AvailabilityPage({
     end: searchParams.end,
     date: searchParams.date,
     studioId: searchParams.studioId,
-  });
+  }).catch(e => console.error(e.cause));
 
   const start = times.find((time) => time.value === searchParams.start)?.label;
   const end = times.find((time) => time.value === searchParams.end)?.label;
   const date = `${format(new Date(searchParams.date), "MM/dd/yyyy")} `;
 
-  const customer_id = cookies().get("customerId")?.value;
+  const userId = cookies().get("userId")?.value;
 
-  if (!customer_id) {
+  if (!userId) {
     return redirect("/login?redirect=/sessions/availability");
   }
 
@@ -70,8 +70,8 @@ export default async function AvailabilityPage({
             className="w-full"
             action={async () => {
               "use server";
-              const customer_id = cookies().get("customerId")?.value;
-              if (!customer_id) {
+              const userId = cookies().get("userId")?.value;
+              if (!userId) {
                 return redirect("/login?redirect=/sessions/availability");
               }
 
@@ -81,7 +81,7 @@ export default async function AvailabilityPage({
                 date: searchParams.date,
                 engineerId: engineer.id,
                 studioId: searchParams.studioId,
-                customerId: customer_id,
+                customerId: userId,
               });
 
               redirect(`/sessions/success?sessionId=${created.id}`);

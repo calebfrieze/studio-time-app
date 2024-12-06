@@ -4,7 +4,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 
 export default function Page() {
-  const customer_id = cookies().get("customerId")?.value;
+  const customer_id = cookies().get("userId")?.value;
   return (
     <main>
       <div className="flex flex-col justify-around items-center py-48 gap-12">

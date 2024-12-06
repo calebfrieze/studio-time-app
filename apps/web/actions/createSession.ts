@@ -18,14 +18,6 @@ export async function createSession({
   studioId: string;
   customerId: string;
 }) {
-  console.log("Creating session", {
-    startTime: start,
-    endTime: end,
-    date,
-    engineerId,
-    studioId,
-    customerId,
-  });
   try {
     const { data } = await query({
       query: gql`
@@ -48,7 +40,6 @@ export async function createSession({
     });
     return data.createSession;
   } catch (e) {
-    console.error("Error creating session");
     console.error(e);
   }
 }

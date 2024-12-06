@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
 export default async function NewSessionPage() {
-  const customer_id = cookies().get("customerId")?.value;
+  const customer_id = cookies().get("userId")?.value;
   if (!customer_id) {
     return redirect("/login?redirect=/sessions/book");
   }

@@ -30,7 +30,6 @@ export class User {
   @Column()
   userType: string;
 
-  @ManyToMany(() => Studio)
-  @JoinTable()
+  @ManyToMany(() => Studio, (studio) => studio.engineers)
   studios: Studio[];
 }
